@@ -1,7 +1,2 @@
 # AndroidUtilsDemo
-a Demo 
-modify
-
-#AndroidUtilsDemo
-this is test commit !
-
+now ,begin the travel!
