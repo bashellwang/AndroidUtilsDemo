@@ -11,11 +11,18 @@ import android.widget.FrameLayout;
 /**
  * Created by bashellwang on 2016/4/17.
  */
+
+/**
+ * 继承FrameLayout而不是其他布局，减少其它不需要的多余的方法，如toLeftOf等
+ * 只需要测量和布局即可
+ */
 public class DragGroupLayout extends FrameLayout {
 
     private ViewDragHelper mViewDragHelper;
-    View mLeftContent;
-    View mMainContent;
+    private View mLeftContent;
+    private View mMainContent;
+    private float WIDTH_RANGE_ARGU = 0.618f;
+    private float mRange;
 
     public DragGroupLayout(Context context) {
         this(context, null);
@@ -34,16 +41,33 @@ public class DragGroupLayout extends FrameLayout {
     }
 
     //    回调方法
+    //    c.重写事件
     ViewDragHelper.Callback mCallBack = new ViewDragHelper.Callback() {
         /**
          * 1.根据返回结果决定当前child是否可以被拖拽
+         * 当尝试捕获时调用
          * @param child 当前被拖拽的child
-         * @param pointerId 和多点触摸相关
+         * @param pointerId 区分多点触摸的id
          * @return
          */
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
             return true;
+        }
+
+        /**
+         * 当capturedChild被捕获时调用
+         * @param capturedChild
+         * @param activePointerId
+         */
+        @Override
+        public void onViewCaptured(View capturedChild, int activePointerId) {
+            super.onViewCaptured(capturedChild, activePointerId);
+        }
+
+        @Override
+        public int getViewHorizontalDragRange(View child) {
+            return super.getViewHorizontalDragRange(child);
         }
 
         /**
@@ -56,6 +80,21 @@ public class DragGroupLayout extends FrameLayout {
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
             return left;
+        }
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            super.onViewPositionChanged(changedView, left, top, dx, dy);
+        }
+
+        @Override
+        public void onViewDragStateChanged(int state) {
+            super.onViewDragStateChanged(state);
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
         }
     };
 
@@ -92,5 +131,22 @@ public class DragGroupLayout extends FrameLayout {
         }
         mLeftContent = getChildAt(0);
         mMainContent = getChildAt(1);
+    }
+
+    /**
+     * 当尺寸有变化时调用
+     *
+     * @param w
+     * @param h
+     * @param oldw
+     * @param oldh
+     */
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        int mWidth = getMeasuredWidth();
+        int mHeight = getMeasuredHeight();
+
+        mRange = mWidth *  WIDTH_RANGE_ARGU;
     }
 }
