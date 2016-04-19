@@ -22,7 +22,9 @@ public class DragGroupLayout extends FrameLayout {
     private View mLeftContent;
     private View mMainContent;
     private float WIDTH_RANGE_ARGU = 0.618f;
-    private float mRange;
+    private int mRange;
+    private int mWidth;
+    private int mHeight;
 
     public DragGroupLayout(Context context) {
         this(context, null);
@@ -52,6 +54,7 @@ public class DragGroupLayout extends FrameLayout {
          */
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
+
             return true;
         }
 
@@ -65,9 +68,14 @@ public class DragGroupLayout extends FrameLayout {
             super.onViewCaptured(capturedChild, activePointerId);
         }
 
+        /**
+         * 返回拖拽的范围，不对拖拽进行真正的限制，仅仅决定动画的执行速度
+         * @param child
+         * @return
+         */
         @Override
         public int getViewHorizontalDragRange(View child) {
-            return super.getViewHorizontalDragRange(child);
+            return mRange;
         }
 
         /**
@@ -144,9 +152,9 @@ public class DragGroupLayout extends FrameLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        int mWidth = getMeasuredWidth();
-        int mHeight = getMeasuredHeight();
+        mWidth = getMeasuredWidth();
+        mHeight = getMeasuredHeight();
 
-        mRange = mWidth *  WIDTH_RANGE_ARGU;
+        mRange =(int) (mWidth * WIDTH_RANGE_ARGU);
     }
 }
