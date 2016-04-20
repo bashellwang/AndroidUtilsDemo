@@ -24,12 +24,30 @@ import com.nineoldandroids.view.ViewHelper;
 public class DragGroupLayout extends FrameLayout {
 
     private ViewDragHelper mViewDragHelper;
-    private View mLeftContent;
-    private View mMainContent;
+    private ViewGroup mLeftContent;
+    private ViewGroup mMainContent;
     private float WIDTH_RANGE_ARGU = 0.618f;
     private int mRange;
     private int mWidth;
     private int mHeight;
+    private OnDragStatusChangedListener mDragListener;
+    private Status mStatus = Status.Close;
+
+    private static enum Status {
+        Open, Close, Draging;
+    }
+
+    public interface OnDragStatusChangedListener {
+        void onOpen();
+
+        void onClose();
+
+        void onDraging(float percent);
+    }
+
+    public void setDragStatusListener(OnDragStatusChangedListener dragListener) {
+        this.mDragListener = dragListener;
+    }
 
     public DragGroupLayout(Context context) {
         this(context, null);
@@ -146,6 +164,11 @@ public class DragGroupLayout extends FrameLayout {
         }
     };
 
+    @Override
+    public boolean dispatchUnhandledMove(View focused, int direction) {
+        return super.dispatchUnhandledMove(focused, direction);
+    }
+
     /**
      * 根据当前滑动距离更新状态
      *
@@ -154,7 +177,43 @@ public class DragGroupLayout extends FrameLayout {
     private void dispatchEvent(int left) {
         float percent = left * 1.0f / mRange;
 
+        if (mDragListener != null) {
+            mDragListener.onDraging(percent);
+        }
+        //更新状态
+        Status preStatus = mStatus;
+        mStatus = updateStatus(percent);
+        if (preStatus != mStatus) {
+            //状态改变
+            if (mStatus == Status.Close) {
+                if (mDragListener != null) {
+                    mDragListener.onClose();
+                }
+            } else if (mStatus == Status.Open) {
+                if (mDragListener != null) {
+                    mDragListener.onOpen();
+                }
+            }
+        }
+
+        //伴随动画
+        animaViews(percent);
+    }
+
+    private Status updateStatus(float percent) {
+        if (percent == 0.0f) {
+            return Status.Close;
+        } else if (percent == 1.0f) {
+            return Status.Open;
+        } else {
+            return Status.Draging;
+        }
+    }
+
+    private void animaViews(float percent) {
         //左面板执行缩放，平移和透明度变化，属性动画不能用，为了兼容低版本，使用nineoldandroid.jar
+//        mLeftContent.setScaleX(0.5f + 0.5f * percent);
+//        mLeftContent.setScaleY(0.5f + 0.5f * percent);
         ViewHelper.setScaleX(mLeftContent, evaluate(percent, 0.5f, 1.0f));
         ViewHelper.setScaleY(mLeftContent, evaluate(percent, 0.5f, 1.0f));
         ViewHelper.setAlpha(mLeftContent, evaluate(percent, 0.5f, 1.0f));
@@ -169,17 +228,26 @@ public class DragGroupLayout extends FrameLayout {
     }
 
     /**
-     * 估值器
+     * 类型估值器 参考：TypeEvaluator-FloatEvaluator
      *
      * @param fraction
      * @param startValue
      * @param endValue
      * @return
      */
-    private float evaluate(float fraction, float startValue, float endValue) {
-        return startValue + fraction * (endValue - startValue);
+    private float evaluate(float fraction, Number startValue, Number endValue) {
+        float startFloat = startValue.floatValue();
+        return startFloat + fraction * (endValue.floatValue() - startFloat);
     }
 
+    /**
+     * 类型估值器 参考：TypeEvaluator-ArgbEvaluator
+     *
+     * @param fraction
+     * @param startValue
+     * @param endValue
+     * @return
+     */
     private Object evaluateColor(float fraction, Object startValue, Object endValue) {
         int startInt = (int) startValue;
         int endInt = (int) endValue;
@@ -298,8 +366,8 @@ public class DragGroupLayout extends FrameLayout {
         if (!(getChildAt(0) instanceof ViewGroup && getChildAt(1) instanceof ViewGroup)) {
             throw new IllegalArgumentException("the child view must be instanceof viewgroup");
         }
-        mLeftContent = getChildAt(0);
-        mMainContent = getChildAt(1);
+        mLeftContent = (ViewGroup) getChildAt(0);
+        mMainContent = (ViewGroup) getChildAt(1);
     }
 
     /**
