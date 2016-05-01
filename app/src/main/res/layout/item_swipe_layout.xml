@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bashell.androidutilsdemo.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_swipe"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#ffffff"
+    android:minHeight="60dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_call"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="#888888"
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher"
+            android:text="call"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="#ff0000"
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher"
+            android:text="delete"
+            android:textColor="#ffffff" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_header"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="xxx" />
+
+    </LinearLayout>
+
+</com.bashell.androidutilsdemo.swipe.SwipeLayout>

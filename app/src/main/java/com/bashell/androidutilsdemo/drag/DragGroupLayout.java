@@ -1,4 +1,4 @@
-package com.bashell.androidutilsdemo;
+package com.bashell.androidutilsdemo.drag;
 
 import android.content.Context;
 import android.graphics.Color;

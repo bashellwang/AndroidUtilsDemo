@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bashell.androidutilsdemo.DragGroupLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bashell.androidutilsdemo.drag.DragGroupLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg"
-    android:id="@+id/root_layout"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#66ff0000"
-        android:orientation="vertical"></LinearLayout>
+        android:background="#220000ff"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_swipe"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:text="侧拉删除"
+            android:textColor="#ffffff"></TextView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#6600ff00"
-        android:orientation="vertical"></LinearLayout>
-</com.bashell.androidutilsdemo.DragGroupLayout>
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/lv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </LinearLayout>
+</com.bashell.androidutilsdemo.drag.DragGroupLayout>
