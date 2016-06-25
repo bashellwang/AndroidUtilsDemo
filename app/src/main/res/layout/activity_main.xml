@@ -23,13 +23,32 @@
             android:textColor="#ffffff"></TextView>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <ListView
             android:id="@+id/lv_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
-    </LinearLayout>
+
+        <com.bashell.androidutilsdemo.quickindex.QuickIndex
+            android:id="@+id/quick_index_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="#00aa00" />
+        <TextView
+            android:id="@+id/tv_center"
+            android:layout_width="160dp"
+            android:layout_height="100dp"
+            android:background="#adadad"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            android:text="A" />
+    </RelativeLayout>
 </com.bashell.androidutilsdemo.drag.DragGroupLayout>
