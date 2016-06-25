@@ -1,4 +1,4 @@
-package com.bashell.androidutilsdemo;
+package com.bashell.androidutilsdemo.utils;
 
 import android.content.Context;
 import android.widget.Toast;

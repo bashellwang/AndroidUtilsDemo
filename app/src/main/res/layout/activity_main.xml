@@ -1,21 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bashell.androidutilsdemo.DragGroupLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bashell.androidutilsdemo.drag.DragGroupLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg"
-    android:id="@+id/root_layout"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#66ff0000"
-        android:orientation="vertical"></LinearLayout>
+        android:background="#220000ff"
+        android:orientation="vertical">
 
-    <LinearLayout
+        <TextView
+            android:id="@+id/tv_swipe"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:text="侧拉删除"
+            android:textColor="#ffffff"></TextView>
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#6600ff00"
-        android:orientation="vertical"></LinearLayout>
-</com.bashell.androidutilsdemo.DragGroupLayout>
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+
+        <com.bashell.androidutilsdemo.quickindex.QuickIndex
+            android:id="@+id/quick_index_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="#00aa00" />
+        <TextView
+            android:id="@+id/tv_center"
+            android:layout_width="160dp"
+            android:layout_height="100dp"
+            android:background="#adadad"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:layout_centerInParent="true"
+            android:text="A" />
+    </RelativeLayout>
+</com.bashell.androidutilsdemo.drag.DragGroupLayout>
